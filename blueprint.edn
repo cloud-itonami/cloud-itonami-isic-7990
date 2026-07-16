@@ -1,0 +1,12 @@
+[{:itonami.blueprint/id "cloud-itonami-isic-7990"
+  :itonami.blueprint/name "Other reservation service and related activities"
+  :itonami.blueprint/isic-rev4 "7990"
+  :itonami.blueprint/domain :services/ticketing-reservation-operations
+  :itonami.blueprint/license "AGPL-3.0-or-later"
+  :itonami.blueprint/social-impact [:consumer-protection :event-access-integrity :ticketing-transparency :fraud-prevention]
+  :itonami.blueprint/governor :reservation-governor
+  :itonami.blueprint/robotics false
+  :itonami.blueprint/required-technologies [:identity :forms :dmn :bpmn :audit-ledger]
+  :itonami.blueprint/status :public-oss
+  :itonami.blueprint/maturity :implemented
+  :db/id -1}]
