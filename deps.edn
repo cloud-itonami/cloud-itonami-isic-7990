@@ -1,5 +1,9 @@
 {:paths ["src"]
- :deps {io.github.kotoba-lang/langgraph
+ :deps {
+        io.github.kotoba-lang/jp-go-digital-design-system
+        {:git/url "https://github.com/kotoba-lang/jp-go-digital-design-system"
+         :git/sha "83db99546eabc53613ae826ea41d1533a3c574af"}
+io.github.kotoba-lang/langgraph
         {:git/sha "a332a770a0d2b5193f81b54483bb954fb29ef8d7"}}
  :aliases
  {:dev {:override-deps
