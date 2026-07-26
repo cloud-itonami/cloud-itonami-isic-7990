@@ -7,7 +7,8 @@
   op below is read from `reservationops.store/demo-data` and
   `reservationops.governor` -- none invented for this renderer).
   No invented numbers, no timestamps, byte-identical across reruns."
-  (:require [clojure.string :as str]
+  (:require [jp-go-dds.skin]
+            [clojure.string :as str]
             [clojure.java.io :as io]
             [reservationops.store :as store]
             [reservationops.operation :as op]
@@ -207,7 +208,9 @@ code { font-size: 12px; background: #f4f4f4; padding: 1px 4px; border-radius: 3p
 (defn render [db]
   (str "<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n"
        "<title>reservationops.render-html -- Reservation Ops Governor operator console</title>\n"
-       "<style>\n" css "\n</style>\n</head>\n<body>\n"
+       "<style>"
+   (jp-go-dds.skin/dds+skin)
+   "</style>\n</head>\n<body>\n"
        "<header class=\"bar\"><h1>Reservation Ops Governor -- Operator Console</h1>"
        "<span class=\"badge\">ISIC 7990 &middot; phase " phase/default-phase "</span></header>\n<main>\n"
        "<div class=\"card\"><h2>Reservation / vendor-contract directory</h2>"
