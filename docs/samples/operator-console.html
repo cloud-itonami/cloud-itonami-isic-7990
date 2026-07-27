@@ -2479,8 +2479,7 @@ img,svg { max-width: 100%; height: auto; }</style>
 <tr><td><code>log-reservation-record</code></td><td><code>res-1</code></td><td>{:reservation-id &quot;res-1&quot;, :customer &quot;Tanaka&quot;, :tickets 2, :status &quot;booked&quot;, :approved-by &quot;reservation-desk-manager-1&quot;}</td></tr>
 <tr><td><code>log-reservation-record</code></td><td><code>res-1</code></td><td>{:reservation-id &quot;res-1&quot;, :customer &quot;Tanaka&quot;, :status &quot;checked-in&quot;}</td></tr>
 <tr><td><code>schedule-allocation-operation</code></td><td><code>res-1</code></td><td>{:reservation-id &quot;res-1&quot;, :item &quot;seat-block reallocation&quot;, :urgency &quot;routine&quot;}</td></tr>
-<tr><td><code>coordinate-vendor-settlement</code></td><td><code>res-2</code></td><td>{:reservation-id &quot;res-2&quot;, :item &quot;venue-b quarterly settlement&quot;, :estimated-amount 1200}</td></tr>
-<tr><td><code>coordinate-vendor-settlement</code></td><td><code>res-2</code></td><td>{:reservation-id &quot;res-2&quot;, :item &quot;annual bulk settlement run&quot;, :estimated-amount 9000, :approved-by &quot;reservation-desk-manager-1&quot;}</td></tr>
+<tr><td><code>coordinate-vendor-settlement</code></td><td><code>res-2</code></td><td>{:reservation-id &quot;res-2&quot;, :item &quot;annual bulk settlement run&quot;, :estimated-amount 2400000, :approved-by &quot;reservation-desk-manager-1&quot;}</td></tr>
 <tr><td><code>flag-transaction-concern</code></td><td><code>res-1</code></td><td>{:reservation-id &quot;res-1&quot;, :concern &quot;possible duplicate charge reported by customer for res-1&quot;, :confidence 0.92, :approved-by &quot;reservation-desk-manager-1&quot;}</td></tr>
 </tbody></table></div>
 <div class="card"><h2>Action gate (phase 3 -- closed op allowlist)</h2><table><thead><tr><th>op</th><th>allowed at phase 3 (supervised-auto)</th><th>auto-commit eligible</th><th>always escalates (high-stakes)</th></tr></thead><tbody>
@@ -2493,7 +2492,6 @@ img,svg { max-width: 100%; height: auto; }</style>
 <tr><td><code>committed</code></td><td><code>log-reservation-record</code></td><td><code>res-1</code></td><td><span class="ok">commit</span></td><td>res-1</td><td>-</td></tr>
 <tr><td><code>committed</code></td><td><code>log-reservation-record</code></td><td><code>res-1</code></td><td><span class="ok">commit</span></td><td>res-1</td><td>-</td></tr>
 <tr><td><code>committed</code></td><td><code>schedule-allocation-operation</code></td><td><code>res-1</code></td><td><span class="ok">commit</span></td><td>res-1</td><td>-</td></tr>
-<tr><td><code>committed</code></td><td><code>coordinate-vendor-settlement</code></td><td><code>res-2</code></td><td><span class="ok">commit</span></td><td>res-2</td><td>-</td></tr>
 <tr><td><code>committed</code></td><td><code>coordinate-vendor-settlement</code></td><td><code>res-2</code></td><td><span class="ok">commit</span></td><td>res-2</td><td>-</td></tr>
 <tr><td><code>committed</code></td><td><code>flag-transaction-concern</code></td><td><code>res-1</code></td><td><span class="ok">commit</span></td><td>res-1</td><td>-</td></tr>
 <tr><td><code>governor-hold</code></td><td><code>log-reservation-record</code></td><td><code>res-99</code></td><td><span class="err">hold</span></td><td>reservation-unverified</td><td>0.94</td></tr>
