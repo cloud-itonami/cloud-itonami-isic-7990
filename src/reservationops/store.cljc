@@ -34,7 +34,8 @@
 
   The ledger stays append-only: which reservation a proposal targeted,
   which operation, on what basis, committed/held/escalated and approved
-  by whom is always a query over an immutable log.")
+  by whom is always a query over an immutable log."
+  (:require [kotoba.reservation :as res]))
 
 (defprotocol Store
   (reservation [s reservation-id] "Registered reservation/vendor-contract
@@ -49,6 +50,13 @@
 
 ;; ----------------------------- demo data -----------------------------
 
+(defn- settlement-plan
+  "One filed per-unit settlement rate for a reservation/vendor contract
+  -- `kotoba.reservation` ground truth the governor recomputes a
+  settlement amount from. Integer minor units (USD cents)."
+  [id per-unit]
+  (res/rate-plan id :unit per-unit "USD" :min-units 1))
+
 (defn demo-data
   "A small, self-contained reservation directory covering both the
   happy path and the governor's own hard checks, so the actor + tests
@@ -58,9 +66,14 @@
    {"res-1" {:reservation-id "res-1" :name "General-admission concert ticket block, venue A, 2026-08-01"
              :kind :customer-booking :registered? true :verified? true}
     "res-2" {:reservation-id "res-2" :name "Venue B vendor/settlement contract, quarterly reconciliation"
-             :kind :vendor-contract :registered? true :verified? true}
+             :kind :vendor-contract :registered? true :verified? true
+             ;; 400 units x $60.00 = $24,000 -- well past the high-value
+             ;; threshold, so it must always reach a human. Understating the
+             ;; claimed amount must NOT be able to buy its way under.
+             :billable-units 400 :rate-plan (settlement-plan "res-2-rate" 6000)}
     "res-3" {:reservation-id "res-3" :name "Reserved-seating theatre block, awaiting box-office verification"
-             :kind :customer-booking :registered? true :verified? false}}})
+             :kind :customer-booking :registered? true :verified? false
+             :billable-units 10 :rate-plan (settlement-plan "res-3-rate" 3000)}}})
 
 ;; ----------------------------- MemStore (default) -----------------------------
 

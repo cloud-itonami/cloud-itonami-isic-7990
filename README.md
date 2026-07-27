@@ -4,6 +4,28 @@
 
 Ticketing agencies and event-reservation services not elsewhere classified as travel-agency/tour-operator activities (see ISIC 7911/7912). A coordination-only actor for ticketing/reservation-agency back-office operations, behind an independent Governor that earns advisor trust through structured oversight: proposal → advise → govern → decide → commit|hold|escalate.
 
+## The settlement amount is recomputed, not read
+
+`:coordinate-vendor-settlement` proposals carry an `:estimated-amount`,
+and a high-value threshold escalates large settlements to a human. Until
+now that gate read the amount **straight out of the advisor's own
+proposal** — the gate's only input was the number it existed to guard
+against. Two consequences, both closed here:
+
+- an advisor stating `4999` for a $24,000 settlement bypassed the human
+  escalation entirely;
+- `some->` on a missing `:estimated-amount` returned nil, so a
+  settlement proposal carrying **no amount at all** escalated to nobody.
+
+Reservations now carry a filed per-unit rate and a billable-unit count,
+and `governor/recomputed-settlement` derives the amount from those via
+[`kotoba.reservation`](https://github.com/kotoba-lang/reservation). The
+mismatch gate is HARD, and the high-value threshold is applied to the
+**recomputed** amount, so understating cannot buy its way under it. A
+settlement that cannot be recomputed — no filed rate, no unit count, no
+stated amount — is itself a HARD violation.
+
+
 ## Features
 
 - **Closed proposal-op allowlist**: log-reservation-record, schedule-allocation-operation, coordinate-vendor-settlement, flag-transaction-concern (all `:effect :propose`).

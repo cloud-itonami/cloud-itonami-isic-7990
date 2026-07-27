@@ -38,7 +38,8 @@
      :cites      [str ..]       ; facts/sources the advisor used -- SCANNED too
      :effect     :propose       ; ALWAYS :propose -- never a direct actuation
      :value      map            ; the draft payload a human/system would review
-     :confidence 0..1}")
+     :confidence 0..1}"
+  (:require [reservationops.governor :as governor]))
 
 (defprotocol Advisor
   (-advise [advisor store request] "store + request -> proposal map"))
@@ -75,15 +76,22 @@
 (defn- propose-vendor-settlement
   "Draft a vendor/venue settlement coordination proposal (never a
   direct fund transfer or settlement finalization)."
-  [_db {:keys [reservation-id patch]}]
-  {:op         :coordinate-vendor-settlement
-   :reservation-id reservation-id
-   :summary    (str reservation-id " に関連するベンダー/会場精算調整: " (pr-str (keys patch)))
-   :rationale  "ベンダー/会場との精算調整の提案のみ。精算確定は人間の予約管理者が判断する。"
-   :cites      [reservation-id]
-   :effect     :propose
-   :value      (merge {:reservation-id reservation-id} patch)
-   :confidence 0.87})
+  [_db {:keys [reservation-id patch understate?]}]
+  (let [truth (governor/recomputed-settlement _db reservation-id)
+        ;; `understate?` states an amount just under the high-value
+        ;; threshold for a settlement that is actually far above it -- the
+        ;; bypass the recompute gate exists to close.
+        amount (if understate? (dec governor/high-value-threshold) truth)]
+    {:op         :coordinate-vendor-settlement
+     :reservation-id reservation-id
+     :summary    (str reservation-id " に関連するベンダー/会場精算調整: " (pr-str (keys patch))
+                      (when amount (str " 精算額=" amount)))
+     :rationale  "ベンダー/会場との精算調整の提案のみ。精算確定は人間の予約管理者が判断する。金額はガバナーが届出レートから再計算して検証する。"
+     :cites      [reservation-id]
+     :effect     :propose
+     :value      (cond-> (merge {:reservation-id reservation-id} patch)
+                   amount (assoc :estimated-amount amount))
+     :confidence 0.87}))
 
 (defn- propose-transaction-concern
   "Surface a payment-dispute/fraud/access-eligibility concern for
@@ -133,5 +141,10 @@
   "The deterministic default advisor for offline demo/test."
   []
   (reify Advisor
-    (-advise [_ _store request]
-      (infer nil request))))
+    ;; the store is threaded through, not discarded: the settlement
+    ;; proposal prices itself off the reservation's own filed rate, and an
+    ;; advisor handed nil cannot price anything. This used to read
+    ;; `(infer nil request)`, which was invisible only because nothing in
+    ;; the advisor read the store.
+    (-advise [_ store request]
+      (infer store request))))
