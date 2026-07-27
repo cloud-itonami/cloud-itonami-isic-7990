@@ -6,7 +6,7 @@
   :itonami.blueprint/social-impact [:consumer-protection :event-access-integrity :ticketing-transparency :fraud-prevention]
   :itonami.blueprint/governor :reservation-governor
   :itonami.blueprint/robotics false
-  :itonami.blueprint/required-technologies [:identity :forms :dmn :bpmn :audit-ledger]
+  :itonami.blueprint/required-technologies [:reservation :identity :forms :dmn :bpmn :audit-ledger]
   :itonami.blueprint/status :public-oss
   :itonami.blueprint/maturity :implemented
   :db/id -1}]
