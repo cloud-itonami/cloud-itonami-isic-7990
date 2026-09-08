@@ -75,7 +75,7 @@
   `reservationops.phase` independently agrees: `:flag-transaction-concern`
   is never a member of any phase's `:auto` set either -- two layers,
   not one."
-  (:require [clojure.string :as str]
+  (:require [kotoba.lang.text :as str]
             [kotoba.reservation :as res]
             [reservationops.store :as store]))
 
@@ -156,7 +156,7 @@
   "Flatten every advisor-authored field on a proposal into one
   lower-cased blob the scope-exclusion scan checks."
   [proposal]
-  (str/lower-case (pr-str (select-keys proposal [:op :summary :rationale :cites :value]))))
+  (str/lower (pr-str (select-keys proposal [:op :summary :rationale :cites :value]))))
 
 (defn- scope-exclusion-violations
   "HARD, PERMANENT block: a proposal outside the closed op allowlist,

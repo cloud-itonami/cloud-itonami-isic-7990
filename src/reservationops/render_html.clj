@@ -8,7 +8,7 @@
   `reservationops.governor` -- none invented for this renderer).
   No invented numbers, no timestamps, byte-identical across reruns."
   (:require [jp-go-dds.skin]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [clojure.java.io :as io]
             [reservationops.store :as store]
             [reservationops.operation :as op]
