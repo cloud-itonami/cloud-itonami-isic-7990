@@ -1,6 +1,6 @@
 (ns reservationops.store-contract-test
   "Contract tests for `reservationops.store/Store` protocol."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [reservationops.store :as store]))
 
 (deftest mem-store-reservation-lookup
