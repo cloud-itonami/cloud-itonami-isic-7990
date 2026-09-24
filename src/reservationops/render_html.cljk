@@ -9,7 +9,7 @@
   No invented numbers, no timestamps, byte-identical across reruns."
   (:require [jp-go-dds.skin]
             [kotoba.lang.text :as str]
-            [clojure.java.io :as io]
+            [kotoba.io :as io]
             [reservationops.store :as store]
             [reservationops.operation :as op]
             [reservationops.advisor :as advisor]
