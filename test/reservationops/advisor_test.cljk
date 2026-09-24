@@ -1,6 +1,6 @@
 (ns reservationops.advisor-test
   "Unit tests of `reservationops.advisor` proposal generation."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [reservationops.advisor :as adv]
             [reservationops.store :as store]))
 
